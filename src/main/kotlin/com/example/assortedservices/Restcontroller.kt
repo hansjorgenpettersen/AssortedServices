@@ -15,6 +15,9 @@ class Restcontroller {
     @GetMapping ("random")
     fun getRandomNumber():String {
         var randomNumber = Random.nextInt(0,1000)
+
+        println("Random number : " + randomNumber)
+
         return randomNumber.toString()
     }
 
