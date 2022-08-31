@@ -21,6 +21,8 @@ class Restcontroller {
     }
     //GET IP
 
+    var homeIp = "Not Set"
+
     @GetMapping("/")
     fun defultReplay():String {
         return "Hello Webhuset"
@@ -48,6 +50,26 @@ class Restcontroller {
         println("Remote IP-Address: " + remoteAddr)
 
         return remoteAddr
+    }
+    @GetMapping("/setHomeAddress")
+    fun setHomeAddress(): String? {
+        var remoteAddr: String? = ""
+        if (request != null) {
+            remoteAddr = request!!.getHeader("X-FORWARDED-FOR")
+            if (remoteAddr == null || "" == remoteAddr) {
+                remoteAddr = request!!.remoteAddr
+            }
+        }
+
+        homeIp = remoteAddr.toString()
+
+        println("Home Address Is: " + remoteAddr)
+
+        return remoteAddr
+    }
+    @GetMapping("/getHomeIP")
+    fun getHomeIP():String {
+        return homeIp
     }
 
 }
