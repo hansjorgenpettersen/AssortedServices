@@ -1,11 +1,25 @@
 package com.example.assortedservices
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 import kotlin.random.Random
 
+@Component
 @RestController
 class Restcontroller {
+
+    //GET IP
+
+    private var request: HttpServletRequest? = null
+
+    @Autowired
+    fun setRequest(request: HttpServletRequest?) {
+        this.request = request
+    }
+    //GET IP
 
     @GetMapping("/")
     fun defultReplay():String {
@@ -19,6 +33,21 @@ class Restcontroller {
         println("Random number : " + randomNumber)
 
         return randomNumber.toString()
+    }
+
+    @GetMapping("/remoteIpAddress")
+    fun getClientIp(): String? {
+        var remoteAddr: String? = ""
+        if (request != null) {
+            remoteAddr = request!!.getHeader("X-FORWARDED-FOR")
+            if (remoteAddr == null || "" == remoteAddr) {
+                remoteAddr = request!!.remoteAddr
+            }
+        }
+
+        println("Remote IP-Address: " + remoteAddr)
+
+        return remoteAddr
     }
 
 }
