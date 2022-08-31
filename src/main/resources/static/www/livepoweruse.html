@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live power use</title>
+</head>
+<body>
+
+<button type="button" onclick="getPowerUse()">Check power</button>
+<p id="result"></p>
+
+
+<script>
+    function getPowerUse() {
+        document.getElementById("result").innerHTML = httpGet("http://185.7.61.179:8080/api/power/live")
+    }
+
+    function httpGet(theUrl) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+</script>
+
+
+
+</body>
+</html>

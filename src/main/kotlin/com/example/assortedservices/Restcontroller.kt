@@ -24,6 +24,7 @@ class Restcontroller {
     //GET IP
 
     var homeIp = "Not Set"
+    var powerUse = "0"
 
     @GetMapping("/")
     fun defultReplay():String {
@@ -76,6 +77,12 @@ class Restcontroller {
 
     @GetMapping ("api/power/setLivePowerUsage")
     fun createNewStudent(@RequestParam liveUsage:String){
+        powerUse = liveUsage
         println("Live Power Usage: " + liveUsage)
+    }
+
+    @GetMapping ("api/power/live")
+    fun apiPowerLive():String {
+        return powerUse
     }
 }
