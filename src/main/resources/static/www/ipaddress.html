@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP Address</title>
+</head>
+<body>
+
+
+<button type="button" onclick="getIpAddress()">Get Ip Address</button>
+<p id="result"></p>
+
+
+<script>
+    function getIpAddress() {
+        document.getElementById("result").innerHTML = httpGet("http://185.7.61.179:8080/remoteIpAddress")
+    }
+
+    function httpGet(theUrl) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+</script>
+
+</body>
+</html>

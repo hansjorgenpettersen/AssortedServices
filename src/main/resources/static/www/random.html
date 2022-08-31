@@ -6,12 +6,12 @@
 </head>
 <body>
 
-<button type="button" onclick="getFirstName()">Get Random Number</button>
+<button type="button" onclick="getRandomNumber()">Get random number</button>
 <p id="result"></p>
 
 
 <script>
-  function getFirstName() {
+  function getRandomNumber() {
     document.getElementById("result").innerHTML = httpGet("http://185.7.61.179:8080/random")
   }
 
