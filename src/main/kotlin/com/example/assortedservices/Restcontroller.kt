@@ -1,8 +1,13 @@
 package com.example.assortedservices
 
+import org.apache.tomcat.util.http.parser.MediaType
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.stereotype.Component
+import org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 import kotlin.random.Random
@@ -72,4 +77,9 @@ class Restcontroller {
         return homeIp
     }
 
+    @PostMapping(“/api/power/liveUsage”)
+    fun createNewStudent(@RequestBody liveUsage:String):{
+
+        println("Live Power Usage: " + liveUsage)
+    }
 }
