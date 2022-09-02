@@ -6,7 +6,12 @@
 </head>
 <body onload="initGauge(getPowerUse());">
 
-<button type="button" onclick="updateGauge(getPowerUse())">Check power</button>
+<button type="button" onclick="updateGauge(updateGauge())">Check power</button>
+<p id="result"></p>
+
+<br><br>
+
+<button type="button" onclick="updateGauge(updateGauge())">Update Gauge</button>
 <p id="result"></p>
 
 <br><br>
@@ -20,8 +25,7 @@
 <script src="dist/gauge.js"></script>
 <script>
     function getPowerUse() {
-        var value = 10
-        var temp = httpGet("http://185.7.61.179:8080/api/power/live")
+        var value = httpGet("http://185.7.61.179:8080/api/power/live")
         document.getElementById("result").innerHTML = value
         gauge(value)
     }
