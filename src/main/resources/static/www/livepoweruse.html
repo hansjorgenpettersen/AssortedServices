@@ -4,26 +4,89 @@
     <meta charset="UTF-8">
     <title>Live power use</title>
 </head>
-<body>
+<body onload="initGauge(getPowerUse());">
 
-<button type="button" onclick="getPowerUse()">Check power</button>
+<button type="button" onclick="updateGauge(getPowerUse())">Check power</button>
 <p id="result"></p>
 
+<br><br>
 
+<canvas id="gauge"></canvas>
+<div id="gaugeText"></div>
+
+
+</body>
+
+<script src="dist/gauge.js"></script>
 <script>
     function getPowerUse() {
-        document.getElementById("result").innerHTML = httpGet("http://185.7.61.179:8080/api/power/live")
+        var value = 10
+        var temp = httpGet("http://185.7.61.179:8080/api/power/live")
+        document.getElementById("result").innerHTML = value
+        gauge(value)
     }
-
     function httpGet(theUrl) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
+    function initGauge(value) {
+
+            var opts = {
+                angle: 0.15, // The span of the gauge arc
+                lineWidth: 0.44, // The line thickness
+                radiusScale: 1, // Relative radius
+                pointer: {
+                    length: 0.92, // // Relative to gauge radius
+                    strokeWidth: 0.033, // The thickness
+                    color: '#000000' // Fill color
+                },
+                limitMax: false,     // If false, max value increases automatically if value > maxValue
+                limitMin: false,     // If true, the min value of the gauge will be fixed
+                colorStart: '#6FADCF',   // Colors
+                colorStop: '#8FC0DA',    // just experiment with them
+                strokeColor: '#E0E0E0',  // to see which ones work best for you
+                generateGradient: true,
+                highDpiSupport: true,     // High resolution support
+
+            };
+            var target = document.getElementById("gauge"); // your canvas element
+            var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+            gauge.maxValue = 12000; // set max gauge value
+            gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+            gauge.animationSpeed = 20; // set animation speed (32 is default value)
+            gauge.set(value); // set actual value
+
+    }
+    function updateGauge(value) {
+
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+                length: 0.92, // // Relative to gauge radius
+                strokeWidth: 0.033, // The thickness
+                color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#6FADCF',   // Colors
+            colorStop: '#8FC0DA',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: false,
+            highDpiSupport: true,     // High resolution support
+
+        };
+        var target = document.getElementById("gauge"); // your canvas element
+        var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+        gauge.maxValue = 12000; // set max gauge value
+        gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+        gauge.animationSpeed = 20; // set animation speed (32 is default value)
+        gauge.set(value); // set actual value
+
+    }
+
 </script>
-
-
-
-</body>
 </html>
