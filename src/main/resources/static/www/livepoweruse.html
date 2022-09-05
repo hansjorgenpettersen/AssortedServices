@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <title>Live power use</title>
 </head>
-<body onload="setInterval(refreshGauge,1000);">
+<body onload="setInterval(refreshGauge,3000);">
+<center>
 
-<br>
-<button type="button" onclick="updateGauge(1000)">updateGauge</button>
-<br>
-<button type="button" onclick="updateGauge(4000)">updateGauge</button>
-
-<br><br>
+<h1>Strømforbruk</h1><br>
 
 <canvas id="gauge"></canvas>
 <div id="result"></div>
 
+</center>
 </body>
 
 <script src="/www/dist/gauge.js"></script>
