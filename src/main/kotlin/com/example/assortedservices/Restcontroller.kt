@@ -1,5 +1,6 @@
 package com.example.assortedservices
 
+import com.fasterxml.jackson.module.kotlin.jsonMapper
 import org.apache.tomcat.util.http.parser.MediaType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
+import kotlin.contracts.contract
 import kotlin.random.Random
 
 @Component
@@ -90,7 +92,7 @@ class Restcontroller {
         return powerUse
     }
     @PostMapping ( "api/dataReciver")
-    fun dataReciver(data:DataReciver) {
+    fun dataReciver(@RequestBody data:DataReciver) {
 
         outorTemperature = data.outdoorTemperature
 
