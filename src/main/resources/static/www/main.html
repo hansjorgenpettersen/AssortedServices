@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kvernabekkveggen</title>
+</head>
+<body onload="continuousGaugeUpdate()">
+<center>
+
+
+<h1>Strømforbruk</h1><br>
+
+<canvas id="livePowerGauge"></canvas>
+<h1><div id="powerUseAsText"></div> Wh</h1>
+
+
+<h1><div id="outdoorTemperature"></div> C</h1>
+
+
+
+<script src="/www/dist/gauge.js"></script>
+<script>
+
+    function getNodeRedData() {
+        var data = JSON.parse(httpGet("http://localhost:8080/api/getNodeRedData"))
+
+        document.getElementById("outDoorTemp").innerHTML = data.outdoorTemperature
+    }
+    function getPowerUse() {
+        var value = httpGet("http://185.7.61.179:8080/api/power/live")
+        document.getElementById("powerUseAsText").innerHTML = value
+        return value
+    }
+    function httpGet(theUrl) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    function continuousGaugeUpdate() {
+
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+                length: 0.92, // // Relative to gauge radius
+                strokeWidth: 0.033, // The thickness
+                color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#6FADCF',   // Colors
+            colorStop: '#8FC0DA',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+
+        };
+        var target = document.getElementById("livePowerGauge"); // your canvas element
+        var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+        gauge.maxValue = 12000; // set max gauge value
+        gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+        gauge.animationSpeed = 20; // set animation speed (32 is default value)
+        gauge.set(getPowerUse()); // set actual value
+
+
+        setInterval(function(){gauge.set(getPowerUse())}, 3000)
+        setInterval(function(){getOutdoorTemp()}, 10000)
+
+    }
+    </script>
+</center>
+</body>
