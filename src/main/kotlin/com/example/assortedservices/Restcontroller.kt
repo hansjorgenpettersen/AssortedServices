@@ -1,15 +1,15 @@
 package com.example.assortedservices
 
-import com.fasterxml.jackson.module.kotlin.jsonMapper
-import org.apache.tomcat.util.http.parser.MediaType
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
-import org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.net.URI
+import java.net.URISyntaxException
 import javax.servlet.http.HttpServletRequest
-import kotlin.contracts.contract
 import kotlin.random.Random
+
 
 @Component
 @RestController
@@ -29,14 +29,13 @@ class Restcontroller {
     var powerUse = "0"
 
     //dataRevicer
-    var outorTemperature = 0
+    var outorTemperature = "0.0"
 
 
     @GetMapping("/")
     fun defultReplay():String {
         return "Hello Webhuset"
     }
-
     @GetMapping ("random")
     fun getRandomNumber():String {
         var randomNumber = Random.nextInt(0,1000)
@@ -45,7 +44,6 @@ class Restcontroller {
 
         return randomNumber.toString()
     }
-
     @GetMapping("/remoteIpAddress")
     fun getClientIp(): String? {
         var remoteAddr: String? = ""
@@ -80,26 +78,23 @@ class Restcontroller {
     fun getHomeIP():String {
         return homeIp
     }
-
     @GetMapping ("api/power/setLivePowerUsage")
-    fun createNewStudent(@RequestParam liveUsage:String){
+    fun setLivePowerUsage(@RequestParam liveUsage:String){
         powerUse = liveUsage
         println("Live Power Usage: " + liveUsage)
     }
-
     @GetMapping ("api/power/live")
     fun apiPowerLive():String {
         return powerUse
     }
-    @PostMapping ( "api/dataReciver")
-    fun dataReciver(@RequestBody data:DataReciver) {
-
-        outorTemperature = data.outdoorTemperature
-
-    }
     @GetMapping ("api/getOutdoorTemperature")
     fun getOutdoorTemperature () : String {
-        return outorTemperature.toString()
+        return outorTemperature
+    }
+    @GetMapping ("api/wether/setOutdoorTemperature")
+    fun setOutdoorTemperature(@RequestParam outdoorTemp:String){
+        outorTemperature = outdoorTemp
+        println("Outdoor Temp Is: " + outdoorTemp)
     }
 
 }

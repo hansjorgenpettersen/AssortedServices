@@ -12,11 +12,20 @@
 <canvas id="livePowerGauge"></canvas>
     <h1><div id="powerUseAsText"></div> Wh</h1>
 
+
+    <h1><div id="outDoorTemp"></div> C</h1>
+
 </center>
 </body>
 
 <script src="/www/dist/gauge.js"></script>
 <script>
+
+    function getOutdoorTemp() {
+        var value = httpGet("http://185.7.61.179:8080/api/getOutdoorTemperature")
+        document.getElementById("outDoorTemp").innerHTML = value
+    }
+
 
     function getPowerUse() {
         var value = httpGet("http://185.7.61.179:8080/api/power/live")
@@ -58,6 +67,7 @@
 
 
         setInterval(function(){gauge.set(getPowerUse())}, 3000)
+        setInterval(function(){gauge.set(getOutdoorTemp())}, 10000)
 
     }
 
