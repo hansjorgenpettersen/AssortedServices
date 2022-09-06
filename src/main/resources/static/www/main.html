@@ -24,7 +24,7 @@
     function getNodeRedData() {
         var data = JSON.parse(httpGet("http://localhost:8080/api/getNodeRedData"))
 
-        document.getElementById("outDoorTemp").innerHTML = data.outdoorTemperature
+        document.getElementById("outdoorTemperature").innerHTML = data.outdoorTemperature
     }
     function getPowerUse() {
         var value = httpGet("http://185.7.61.179:8080/api/power/live")
