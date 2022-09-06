@@ -1,7 +1,10 @@
 package com.example.assortedservices
 
+import com.example.assortedservices.NodeRed.DataReciver
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PostAuthorize
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -30,6 +33,8 @@ class Restcontroller {
 
     //dataRevicer
     var outorTemperature = "0.0"
+
+    var recentData = DataReciver()
 
 
     @GetMapping("/")
@@ -89,12 +94,19 @@ class Restcontroller {
     }
     @GetMapping ("api/getOutdoorTemperature")
     fun getOutdoorTemperature () : String {
-        return outorTemperature
+        return recentData.outdoorTemperature.toString()
     }
     @GetMapping ("api/wether/setOutdoorTemperature")
     fun setOutdoorTemperature(@RequestParam outdoorTemp:String){
-        outorTemperature = outdoorTemp
         println("Outdoor Temp Is: " + outdoorTemp)
     }
-
+    @PostMapping ("api/nodeRed/revciver")
+    fun nodeRedRevicer(@RequestBody data:DataReciver) : String {
+        recentData = data
+        return "Data Recived!"
+    }
+    @GetMapping ("api/getNodeRedData")
+    fun getNodeRedData():DataReciver {
+        return recentData
+    }
 }
