@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Live power use</title>
 </head>
-<body onload="initGauge()">
+<body onload="continuousGaugeUpdate()">
 <center>
 
 <h1>Strømforbruk</h1><br>
 
 <canvas id="livePowerGauge"></canvas>
-    <h1><div id="result"></div></h1>
+    <h1><div id="powerUseAsText"></div> Wh</h1>
 
 </center>
 </body>
@@ -20,7 +20,7 @@
 
     function getPowerUse() {
         var value = httpGet("http://185.7.61.179:8080/api/power/live")
-        document.getElementById("result").innerHTML = value
+        document.getElementById("powerUseAsText").innerHTML = value
         return value
     }
     function httpGet(theUrl) {
@@ -29,7 +29,7 @@
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
-    function initGauge() {
+    function continuousGaugeUpdate() {
 
             var opts = {
                 angle: 0.15, // The span of the gauge arc

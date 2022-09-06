@@ -26,6 +26,10 @@ class Restcontroller {
     var homeIp = "Not Set"
     var powerUse = "0"
 
+    //dataRevicer
+    var outorTemperature = 0
+
+
     @GetMapping("/")
     fun defultReplay():String {
         return "Hello Webhuset"
@@ -85,4 +89,15 @@ class Restcontroller {
     fun apiPowerLive():String {
         return powerUse
     }
+    @PostMapping ( "api/dataReciver")
+    fun dataReciver(data:DataReciver) {
+
+        outorTemperature = data.outdoorTemperature
+
+    }
+    @GetMapping ("api/getOutdoorTemperature")
+    fun getOutdoorTemperature () : String {
+        return outorTemperature.toString()
+    }
+
 }
