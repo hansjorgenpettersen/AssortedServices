@@ -8,26 +8,26 @@
 <center>
 
 
-<h1>Strømforbruk</h1><br>
+    <h1>Strømforbruk</h1><br>
 
-<canvas id="livePowerGauge"></canvas>
-<h1><div id="powerUseAsText"></div> Wh</h1>
+    <canvas id="livePowerGauge"></canvas>
+    <h1><div id="powerUseAsText">W/h</div></h1>
 
+    <br>
+    <p id="outdoorTemperature"></p>
 
-<h1><div id="outdoorTemperature"></div> C</h1>
+</center>
+</body>
 
-
-
-<script src="/www/dist/gauge.js"></script>
-<script>
+    <script src="/www/dist/gauge.js"></script>
+    <script>
 
     function getNodeRedData() {
-        var data = JSON.parse(httpGet("http://localhost:8080/api/getNodeRedData"))
-
-        document.getElementById("outdoorTemperature").innerHTML = data.outdoorTemperature
+        var data = JSON.parse(httpGet("http://localhost:8080/api/getNodeRedData"));
+        document.getElementById("outdoorTemperature").innerHTML = data.outdoorTemperature;
     }
     function getPowerUse() {
-        var value = httpGet("http://185.7.61.179:8080/api/power/live")
+        var value = httpGet("http://localhost:8080/api/power/live")
         document.getElementById("powerUseAsText").innerHTML = value
         return value
     }
@@ -64,11 +64,8 @@
         gauge.animationSpeed = 20; // set animation speed (32 is default value)
         gauge.set(getPowerUse()); // set actual value
 
-
-        setInterval(function(){gauge.set(getPowerUse())}, 3000)
-        setInterval(function(){getOutdoorTemp()}, 10000)
-
+        setInterval(function(){getPowerUse()}, 3000)
+        setInterval(function(){getNodeRedData()}, 10000)
     }
     </script>
-</center>
-</body>
+</html>
